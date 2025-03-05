@@ -24,10 +24,13 @@ const CreateForm = () => {
     console.log([...formData]); // Debugging
 
     try {
-      const response = await fetch("/api/products", {
-        method: "POST",
-        body: formData, // Don't stringify
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/products`,
+        {
+          method: "POST",
+          body: formData, // Don't stringify
+        }
+      );
 
       const result = await response.json();
 

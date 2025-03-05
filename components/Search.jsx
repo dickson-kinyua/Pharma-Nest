@@ -29,7 +29,7 @@ const Search = () => {
       setLoading(true); // Start loading
 
       try {
-        const response = await fetch(`/api/search?q=${term}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/search?q=${term}`, {
           cache: "no-store",
         });
         const data = await response.json();

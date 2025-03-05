@@ -31,7 +31,9 @@ const Account = () => {
   }, [status, router]);
 
   const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" }); // Clears JWT cookie (only if needed)
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`, {
+      method: "POST",
+    }); // Clears JWT cookie (only if needed)
     clearCart(); // Clear cart state
     setLoggedUser(null); // Clear frontend state
     signOut(); // Log out of NextAuth

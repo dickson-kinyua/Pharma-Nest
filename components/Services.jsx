@@ -15,11 +15,14 @@ const Services = () => {
     e.preventDefault();
     const formData = { oldPassword, newPassword };
     try {
-      const response = await fetch("/api/auth/changePassword", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/changePassword`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await response.json();
       if (!response.ok) {
         setError(data.error);

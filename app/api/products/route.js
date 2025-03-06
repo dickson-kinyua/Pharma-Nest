@@ -55,13 +55,13 @@ export async function POST(req) {
   try {
     await connectDB();
 
-    // Parse the FormData
+    // Parse form data
     const formData = await req.formData();
     const title = formData.get("title");
     const description = formData.get("description");
     const price = formData.get("price");
     const category = formData.get("category");
-    const imageFile = formData.get("image"); // This is a File object
+    const imageFile = formData.get("image");
 
     if (!title || !description || !price || !category || !imageFile) {
       return NextResponse.json(
@@ -74,13 +74,15 @@ export async function POST(req) {
     const bytes = await imageFile.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Save image to public/uploads
-    const fileName = `${Date.now()}-${imageFile.name}`;
-    const filePath = path.join(process.cwd(), "public/uploads", fileName);
-    await writeFile(filePath, buffer);
-
-    // Image URL to store in MongoDB
-    const imageUrl = `/uploads/${fileName}`;
+    // Upload to Cloudinary
+    const uploadResponse = await new Promise((resolve, reject) => {
+      cloudinary.uploader
+        .upload_stream({ folder: "products" }, (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        })
+        .end(buffer);
+    });
 
     // Save product to MongoDB
     const newProduct = new Product({
@@ -88,14 +90,13 @@ export async function POST(req) {
       description,
       price,
       category,
-      imageUrl,
+      imageUrl: uploadResponse.secure_url, // Cloudinary URL
     });
     await newProduct.save();
-    revalidatePath("/");
 
     return NextResponse.json({
       message: "Product uploaded successfully",
-      imageUrl,
+      imageUrl: uploadResponse.secure_url,
     });
   } catch (error) {
     console.error("Error uploading product", error);

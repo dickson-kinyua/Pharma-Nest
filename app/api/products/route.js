@@ -46,11 +46,11 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-async function uploadToCloudinary(buffer, fileName) {
+const uploadToCloudinary = async (buffer, fileName) => {
   return new Promise((resolve, reject) => {
-    cloudinary.v2.uploader
+    cloudinary.uploader
       .upload_stream(
-        { resource_type: "image", public_id: fileName },
+        { resource_type: "auto", public_id: fileName },
         (error, result) => {
           if (error) reject(error);
           else resolve(result.secure_url);
@@ -58,7 +58,7 @@ async function uploadToCloudinary(buffer, fileName) {
       )
       .end(buffer);
   });
-}
+};
 
 export async function POST(req) {
   try {

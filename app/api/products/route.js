@@ -38,31 +38,38 @@ export async function GET(req) {
   }
 }
 
-// Multer Configuration: Store file in memory before processing
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
+// Cloudinary Configuration
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-// Middleware-like function to handle file uploads
-const processFile = async (req) => {
+async function uploadToCloudinary(buffer, fileName) {
   return new Promise((resolve, reject) => {
-    upload.single("image")(req, {}, (err) => {
-      if (err) reject(err);
-      resolve(req.file);
-    });
+    cloudinary.v2.uploader
+      .upload_stream(
+        { resource_type: "image", public_id: fileName },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result.secure_url);
+        }
+      )
+      .end(buffer);
   });
-};
+}
 
 export async function POST(req) {
   try {
     await connectDB();
-    const formData = await req.formData();
 
-    // Extract data from form
+    // Parse FormData
+    const formData = await req.formData();
     const title = formData.get("title");
     const description = formData.get("description");
     const price = formData.get("price");
     const category = formData.get("category");
-    const imageFile = formData.get("image");
+    const imageFile = formData.get("image"); // This is a File object
 
     if (!title || !description || !price || !category || !imageFile) {
       return NextResponse.json(
@@ -76,18 +83,8 @@ export async function POST(req) {
     const buffer = Buffer.from(bytes);
 
     // Upload to Cloudinary
-    const uploadResponse = await new Promise((resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream({ folder: "products" }, (error, result) => {
-          if (error) {
-            console.error("Cloudinary Upload Error:", error);
-            reject(new Error("Cloudinary upload failed"));
-          } else {
-            resolve(result);
-          }
-        })
-        .end(buffer);
-    });
+    const fileName = `${Date.now()}-${imageFile.name}`;
+    const imageUrl = await uploadToCloudinary(buffer, fileName);
 
     // Save to MongoDB
     const newProduct = new Product({
@@ -95,13 +92,13 @@ export async function POST(req) {
       description,
       price,
       category,
-      imageUrl: uploadResponse.secure_url, // Store Cloudinary URL
+      imageUrl,
     });
     await newProduct.save();
 
     return NextResponse.json({
       message: "Product uploaded successfully",
-      imageUrl: uploadResponse.secure_url,
+      imageUrl,
     });
   } catch (error) {
     console.error("Server Error:", error);

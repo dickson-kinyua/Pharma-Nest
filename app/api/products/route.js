@@ -55,9 +55,9 @@ const processFile = async (req) => {
 export async function POST(req) {
   try {
     await connectDB();
-
-    // Parse form data
     const formData = await req.formData();
+
+    // Extract data from form
     const title = formData.get("title");
     const description = formData.get("description");
     const price = formData.get("price");
@@ -79,19 +79,23 @@ export async function POST(req) {
     const uploadResponse = await new Promise((resolve, reject) => {
       cloudinary.uploader
         .upload_stream({ folder: "products" }, (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
+          if (error) {
+            console.error("Cloudinary Upload Error:", error);
+            reject(new Error("Cloudinary upload failed"));
+          } else {
+            resolve(result);
+          }
         })
         .end(buffer);
     });
 
-    // Save product to MongoDB
+    // Save to MongoDB
     const newProduct = new Product({
       title,
       description,
       price,
       category,
-      imageUrl: uploadResponse.secure_url, // Cloudinary URL
+      imageUrl: uploadResponse.secure_url, // Store Cloudinary URL
     });
     await newProduct.save();
 
@@ -100,9 +104,9 @@ export async function POST(req) {
       imageUrl: uploadResponse.secure_url,
     });
   } catch (error) {
-    console.error("Error uploading product", error);
+    console.error("Server Error:", error);
     return NextResponse.json(
-      { message: "Error uploading product" },
+      { error: "Internal Server Error" },
       { status: 500 }
     );
   }

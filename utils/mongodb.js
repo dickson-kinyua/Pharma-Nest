@@ -14,7 +14,6 @@ export const connectDB = async () => {
     }
 
     const db = await mongoose.connect(MONGODB_URI, {
-      useNewUrlParser: true,
       useUnifiedTopology: true,
     });
 

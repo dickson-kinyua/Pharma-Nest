@@ -2,13 +2,14 @@
 import { useState } from "react";
 
 const CreateForm = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("");
-  const [image, setImage] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +21,8 @@ const CreateForm = () => {
     formData.append("description", description);
     formData.append("price", price);
     formData.append("category", category);
-    formData.append("image", image);
+    formData.append("image", await convertToBase64(image)); // Convert image
+
     console.log([...formData]); // Debugging
 
     try {
@@ -28,7 +30,7 @@ const CreateForm = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/api/products`,
         {
           method: "POST",
-          body: formData, // Don't stringify
+          body: formData,
         }
       );
 

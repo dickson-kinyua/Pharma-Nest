@@ -3,6 +3,7 @@ import { connectDB } from "@/utils/mongodb";
 import multer from "multer";
 import path from "path";
 import { NextResponse } from "next/server";
+import cloudinary from "@/lib/cloudinary";
 import { writeFile } from "fs/promises";
 import { revalidatePath } from "next/cache";
 

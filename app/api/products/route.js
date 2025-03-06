@@ -56,7 +56,7 @@ const uploadToCloudinary = async (buffer, fileName) => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader
       .upload_stream(
-        { resource_type: "auto", public_id: fileName },
+        { resource_type: "image", public_id: fileName },
         (error, result) => {
           if (error) {
             console.error("Upload Error:", error);

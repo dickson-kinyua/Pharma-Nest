@@ -13,9 +13,7 @@ export const connectDB = async () => {
       return;
     }
 
-    const db = await mongoose.connect(MONGODB_URI, {
-      useUnifiedTopology: true,
-    });
+    const db = await mongoose.connect(MONGODB_URI);
 
     console.log("Connected to the database");
     return db;

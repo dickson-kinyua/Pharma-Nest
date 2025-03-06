@@ -42,6 +42,7 @@ export async function GET(req) {
 //cloudinary
 
 // Cloudinary Configuration
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -54,8 +55,12 @@ const uploadToCloudinary = async (buffer, fileName) => {
       .upload_stream(
         { resource_type: "auto", public_id: fileName },
         (error, result) => {
-          if (error) reject(error);
-          else resolve(result.secure_url);
+          if (error) {
+            console.error("Upload Error:", error);
+            reject(error);
+          } else {
+            resolve(result.secure_url);
+          }
         }
       )
       .end(buffer);

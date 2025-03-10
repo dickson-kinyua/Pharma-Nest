@@ -29,7 +29,9 @@ const CreateForm = () => {
     formData.append("description", description);
     formData.append("price", price);
     formData.append("category", category);
-    formData.append("image", await convertToBase64(image)); // Convert image
+    formData.append("image", image);
+
+    console.log(image, typeof image);
 
     console.log([...formData]); // Debugging
 
@@ -66,6 +68,7 @@ const CreateForm = () => {
     <form
       className="flex flex-col gap-3 border rounded bg-white m-3 p-2"
       onSubmit={handleSubmit}
+      encType="multipart/form-data"
     >
       <h2 className="text-lg font-bold">Add a new product</h2>
       <input

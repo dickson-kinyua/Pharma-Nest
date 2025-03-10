@@ -3,7 +3,6 @@ import { connectDB } from "@/utils/mongodb";
 import multer from "multer";
 import path from "path";
 import { NextResponse } from "next/server";
-// import cloudinary from "@/lib/cloudinary";
 import { writeFile } from "fs/promises";
 import { revalidatePath } from "next/cache";
 import { v2 as cloudinary } from "cloudinary";
@@ -11,20 +10,7 @@ import { v2 as cloudinary } from "cloudinary";
 export async function GET(req) {
   try {
     await connectDB();
-    //extract query parameter
-    // const query = req.nextUrl.searchParams.get("query") || "";
-    // console.log("Search query:", query);
-    // Search MongoDB with regex
-    // const products = await Product.find({
-    //   $or: [
-    //     { title: { $regex: query, $options: "i" } }, // Case-insensitive search
-    //     { description: { $regex: query, $options: "i" } },
-    //   ],
-    // });
-    // Convert _id to string
-
     const products = await Product.find().lean();
-
     const serializedProducts = products.map((product) => ({
       ...product,
       _id: product._id.toString(), // Convert MongoDB ObjectId to string
@@ -39,8 +25,6 @@ export async function GET(req) {
   }
 }
 
-//cloudinary
-
 // Cloudinary Configuration
 
 cloudinary.config({
@@ -48,9 +32,9 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-console.log(process.env.CLOUDINARY_CLOUD_NAME);
-console.log(process.env.CLOUDINARY_API_KEY);
-console.log(process.env.CLOUDINARY_API_SECRET);
+// console.log(process.env.CLOUDINARY_CLOUD_NAME);
+// console.log(process.env.CLOUDINARY_API_KEY);
+// console.log(process.env.CLOUDINARY_API_SECRET);
 
 const uploadToCloudinary = async (buffer, fileName) => {
   return new Promise((resolve, reject) => {
@@ -80,7 +64,9 @@ export async function POST(req) {
     const description = formData.get("description");
     const price = formData.get("price");
     const category = formData.get("category");
-    const imageFile = formData.get("image"); // This is a File object
+    const imageFile = formData.get("image");
+
+    console.log(typeof imageFile);
 
     if (!title || !description || !price || !category || !imageFile) {
       return NextResponse.json(
@@ -90,6 +76,15 @@ export async function POST(req) {
     }
 
     // Convert image to Buffer
+    // const imageFile = formData.get("image");
+
+    if (!imageFile || typeof imageFile.arrayBuffer !== "function") {
+      console.log("invalid file upload");
+      return NextResponse.json(
+        { error: "Invalid file upload" },
+        { status: 400 }
+      );
+    }
     const bytes = await imageFile.arrayBuffer();
     const buffer = Buffer.from(bytes);
 

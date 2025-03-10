@@ -4,7 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Products = ({ products }) => {
-  return products.length > 1 ? (
+  console.log(products);
+  return products.length > 0 ? (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-white p-2 pb-14 mt-24">
       {products?.map((product) => (
         <div className="flex flex-col gap-1" key={product._id}>

@@ -1,3 +1,5 @@
+export const revalidate = 0; // Disable caching
+
 import Product from "@/models/product";
 import { connectDB } from "@/utils/mongodb";
 import multer from "multer";
@@ -15,6 +17,7 @@ export async function GET(req) {
       ...product,
       _id: product._id.toString(), // Convert MongoDB ObjectId to string
     }));
+    console.log(serializedProducts);
     return NextResponse.json(serializedProducts);
   } catch (error) {
     console.error("Error fetching products:", error);

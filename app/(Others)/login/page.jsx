@@ -1,28 +1,40 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useLoggedUser } from "@/Context/userContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify";
 import { signIn } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const { setLoggedUser } = useLoggedUser();
+  const { loggedUser, setLoggedUser } = useLoggedUser();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectPath = searchParams.get("redirect") || "/"; // Default to home if no redirect
+
+  useEffect(() => {
+    if (loggedUser) {
+      router.push(redirectPath); // Redirect user after login
+    }
+  }, [loggedUser, router, redirectPath]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+          credentials: "include",
+        }
+      );
 
       const data = await res.json();
 
@@ -31,6 +43,7 @@ const LoginPage = () => {
         return;
       }
       setLoggedUser(data.userInfo);
+      router.push(redirectPath); //Redirect after login
       console.log(data.userInfo);
     } catch (error) {
       console.error("Login failed", error);

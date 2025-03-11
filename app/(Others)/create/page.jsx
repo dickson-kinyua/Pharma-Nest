@@ -5,7 +5,7 @@ const CreateForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("liquid");
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -100,6 +100,7 @@ const CreateForm = () => {
       />
       <select
         className="w-1/2 bg-gray-200 p-2"
+        value={category}
         onChange={(e) => setCategory(e.target.value)}
         aria-placeholder="Select Category"
       >

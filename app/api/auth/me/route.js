@@ -8,7 +8,7 @@ export async function GET(req) {
   const token = req.cookies.get("token")?.value;
 
   if (!token) {
-    return NextResponse.json({ message: "Not authenticated" });
+    return NextResponse.json({ message: "Not authenticated" }, { status: 400 });
   }
 
   const decoded = verifyToken(token);
@@ -18,5 +18,5 @@ export async function GET(req) {
 
   const user = await User.findById(decoded.userID).select("-password");
   // console.log(user);
-  return NextResponse.json(user);
+  return NextResponse.json(user, { status: 200 });
 }

@@ -58,7 +58,7 @@ const Search = () => {
     const interval = setInterval(() => {
       index = (index + 1) % placeholders.length;
       setPlaceholder(placeholders[index]);
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);

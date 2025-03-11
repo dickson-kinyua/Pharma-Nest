@@ -1,5 +1,3 @@
-// "use client";
-
 import Products from "./products";
 
 export default async function FetchAllProducts() {

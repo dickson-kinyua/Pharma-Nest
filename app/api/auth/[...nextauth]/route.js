@@ -6,7 +6,7 @@ import { connectDB } from "@/utils/mongodb";
 import jwt from "jsonwebtoken";
 import User from "@/models/userModel";
 
-console.log(User)
+console.log(User);
 
 export const authOptions = {
   providers: [
@@ -28,7 +28,7 @@ export const authOptions = {
         );
         if (!isValidPassword) throw new Error("Invalid credentials");
 
-        return { id: user._id, email: user.email, name: user.name };
+        return { id: user._id, email: user.email, name: user.fullName };
       },
     }),
     GoogleProvider({

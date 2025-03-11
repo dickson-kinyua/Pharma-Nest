@@ -13,12 +13,20 @@ export async function GET(req) {
   try {
     await connectDB();
     const products = await Product.find().lean();
+
+    if (!products) {
+      return NextResponse.json(
+        { error: "No products found!" },
+        { status: 400 }
+      );
+    }
+
     const serializedProducts = products.map((product) => ({
       ...product,
       _id: product._id.toString(), // Convert MongoDB ObjectId to string
     }));
-    console.log(serializedProducts);
-    return NextResponse.json(serializedProducts);
+    // console.log(serializedProducts);
+    return NextResponse.json(serializedProducts, { status: 200 });
   } catch (error) {
     console.error("Error fetching products:", error);
     return NextResponse.json(
@@ -69,7 +77,7 @@ export async function POST(req) {
     const category = formData.get("category");
     const imageFile = formData.get("image");
 
-    console.log(typeof imageFile);
+    // console.log(typeof imageFile);
 
     if (!title || !description || !price || !category || !imageFile) {
       return NextResponse.json(
@@ -78,9 +86,6 @@ export async function POST(req) {
       );
     }
 
-    // Convert image to Buffer
-    // const imageFile = formData.get("image");
-
     if (!imageFile || typeof imageFile.arrayBuffer !== "function") {
       console.log("invalid file upload");
       return NextResponse.json(
@@ -88,6 +93,7 @@ export async function POST(req) {
         { status: 400 }
       );
     }
+    // Convert image to Buffer
     const bytes = await imageFile.arrayBuffer();
     const buffer = Buffer.from(bytes);
 

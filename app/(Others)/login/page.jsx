@@ -60,7 +60,7 @@ const LoginContent = () => {
   return (
     <div>
       <div className="h-[150px] bg-blue-600 p-2 flex flex-col gap-3 justify-center">
-        <Link href={redirectPath} className="text-white underline">
+        <Link href={"/"} className="text-white underline">
           ↖ back
         </Link>
 

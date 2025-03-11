@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useLoggedUser } from "@/Context/userContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify";
@@ -9,9 +9,16 @@ import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const LoginPage = () => {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <LoginContent />
+    </Suspense>
+  );
+};
+
+const LoginContent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
   const { loggedUser, setLoggedUser } = useLoggedUser();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -72,7 +79,7 @@ const LoginPage = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <label htmlFor="passwod">Password</label>
+        <label htmlFor="password">Password</label>
         <input
           type="password"
           id="password"

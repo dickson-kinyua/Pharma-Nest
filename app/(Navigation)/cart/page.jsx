@@ -5,9 +5,12 @@ import { useEffect, useState } from "react";
 import { UserCart } from "@/Context/cartContext";
 import { useLoggedUser } from "@/Context/userContext";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const CarFetch = () => {
   const router = useRouter();
+  const { session, status } = useSession();
+
   const { loggedUser, setLoggedUser } = useLoggedUser();
   const { setCartList } = UserCart();
   const [cartItems, setCartItems] = useState(null);
@@ -29,10 +32,19 @@ const CarFetch = () => {
         // console.log(data);
 
         if (res.ok) {
-          setLoggedUser(data);
+          if (session?.user) {
+            setLoggedUser(session?.user);
+            return;
+          } else {
+            setLoggedUser(data);
+          }
         } else {
-          setLoggedUser(null); // Ensure it's explicitly set
-          router.push(`/login?redirect=/cart`);
+          if (session?.user) {
+            setLoggedUser(session?.user);
+          } else {
+            setLoggedUser(null); // Ensure it's explicitly set
+            router.push(`/login?redirect=/cart`);
+          }
         }
       } catch (error) {
         console.error("Error verifying user:", error);

@@ -63,9 +63,9 @@ const Account = () => {
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`, {
       method: "POST",
     }); // Clears JWT cookie (only if needed)
-    clearCart(); // Clear account state
     setLoggedUser(null); // Clear frontend state
     signOut(); // Log out of NextAuth
+    clearCart(); // Clear account state
   };
 
   // Prevent rendering while checking authentication

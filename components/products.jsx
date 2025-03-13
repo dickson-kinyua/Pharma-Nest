@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import ProductsLoadingSkeleton from "@/app/skeletons/productsLoadingSkeleton";
 
 const Products = ({ products }) => {
-  console.log(products);
+  if (!products) return <ProductsLoadingSkeleton />;
+  // console.log(products);
   return products.length > 0 ? (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-white pb-14 mt-[270px]">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-white pb-14 mt-[125px]">
       {products?.map((product) => (
         <div className="flex flex-col gap-1" key={product._id}>
           <Link href={`/listing/${product._id}`} className="bg-blue-50 p-1">
@@ -18,7 +20,7 @@ const Products = ({ products }) => {
                 height={300}
                 className="w-full h-[100px] object-cover"
               />
-              <p>{product.title}</p>
+              <p className="mt-2 w-full truncate">{product.title}</p>
               <p className="text-blue-500 font-semibold">KSh {product.price}</p>
             </div>
           </Link>

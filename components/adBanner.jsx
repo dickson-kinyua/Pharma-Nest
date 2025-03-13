@@ -36,13 +36,13 @@ const AdBanner = () => {
         }`}
       >
         <p className="animate-pulse text-sm">
-          🎉 Special Deal! Free Shipping on all Orders!🔥
+          🔥Special Deal! Free Shipping on all Orders!🔥
         </p>
       </div>
-      <div className="text-sm p-2 flex flex-row justify-between">
+      {/* <div className="text-sm p-2 flex flex-row justify-between">
         <p className="self-center text-center">{message}</p>
         <img className="w-1/2 h-20" src={image} alt="pic" />
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -19,6 +19,14 @@ const WithNavbarLayout = ({ children }) => {
         </Link>
 
         <Link
+          href={"/message"}
+          className={`relative ${
+            pathname === "/message" ? "text-red-600" : ""
+          }`}
+        >
+          <li>Message</li>
+        </Link>
+        <Link
           href={"/cart"}
           className={`relative ${pathname === "/cart" ? "text-red-600" : ""}`}
         >

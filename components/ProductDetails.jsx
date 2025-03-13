@@ -4,12 +4,27 @@ import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify";
 import { UserCart } from "@/Context/cartContext";
+import { useContext, useState } from "react";
+import { UserContext } from "@/Context/userContext";
+import { useRouter } from "next/navigation";
+import ProductInfo from "./ProductInfo";
+import Reviews from "./Reviews";
+import ProductDescription from "./ProductDescription";
+import Recommend from "./Recommend";
 
 const ProductDetails = ({ product }) => {
   const { addToCart } = UserCart();
+  const { loggedUser } = useContext(UserContext);
+  const router = useRouter();
+  const [page, setPage] = useState(1);
 
   const handleAddToCart = async (productID) => {
-    console.log(productID);
+    if (!loggedUser) {
+      router.push(`/login?redirect=/listing/${productID}`);
+      return;
+    }
+
+    // console.log(productID);
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/cart`,
@@ -18,6 +33,7 @@ const ProductDetails = ({ product }) => {
         body: JSON.stringify({ productID }),
         headers: { "Content-Type": "application/json" },
         credentials: "include",
+        cache: "no-store",
       }
     );
     const data = await response.json();
@@ -35,38 +51,65 @@ const ProductDetails = ({ product }) => {
 
   return (
     <div className="flex flex-col gap-3 p-2 pb-12">
-      <ToastContainer position="top-right" />
-      <div className="flex justify-between sticky top-0 bg-[white] p-2">
-        <Link href={"/"} className="underline">
-          ↖Back
+      <div className="flex flex-col gap-3 fixed top-0 right-0 left-0 bg-[white] p-2">
+        <Link href={"/"} className="text-xl">
+          ↖
         </Link>
-        <Link href={"/cart"} className="underline">
+        <div className="flex justify-between">
+          <button
+            onClick={() => setPage(1)}
+            className={
+              page === 1 ? "text-blue-600 border-b-2 border-blue-500" : ""
+            }
+          >
+            Product
+          </button>
+          <button
+            onClick={() => setPage(2)}
+            className={
+              page === 2 ? "text-blue-500 border-b-2 border-blue-500" : ""
+            }
+          >
+            Reviews
+          </button>
+          <button
+            onClick={() => setPage(3)}
+            className={
+              page === 3 ? "text-blue-500 border-b-2 border-blue-500" : ""
+            }
+          >
+            Description
+          </button>
+          <button
+            onClick={() => setPage(4)}
+            className={
+              page === 4 ? "text-blue-500 border-b-2 border-blue-500 " : ""
+            }
+          >
+            Recommend
+          </button>
+        </div>
+      </div>
+      <ToastContainer position="top-right" />
+      <div className="mt-16 ">
+        {page === 1 && <ProductInfo product={product} />}
+        {page === 2 && <Reviews />}
+        {page === 3 && <ProductDescription product={product} />}
+        {page === 4 && <Recommend />}
+      </div>
+
+      <div className="fixed left-0 p-2 bg-slate-50 bottom-0 w-full  flex justify-between">
+        <button
+          className="rounded-xl text-blue-500 w-fit text-sm"
+          onClick={() => handleAddToCart(product._id)}
+        >
+          Add to cart ↗
+        </button>
+
+        <Link href={"/cart"} className="underline block">
           View 🛒
         </Link>
       </div>
-      <div className="w-full flex items-center justify-center p-5 bg-slate-300">
-        <Image
-          src={product?.imageUrl}
-          width={270}
-          height={148}
-          alt="product"
-        ></Image>
-      </div>
-      <p className="text-sm text-blue-600 font-bold">Shopping</p>
-
-      <p className="font-bold text-xl">{product?.title}</p>
-      <p className="font-bold text-xl">KSh {product?.price}</p>
-      <div>
-        <p>Product information</p>
-
-        <p>{product?.description}</p>
-      </div>
-      <button
-        className="rounded-xl text-blue-500 w-fit text-sm"
-        onClick={() => handleAddToCart(product._id)}
-      >
-        Add to cart ↗
-      </button>
     </div>
   );
 };

@@ -7,7 +7,7 @@ export default async function FetchAllProducts() {
   );
   if (!res.ok) throw new Error();
   const products = await res.json();
-  console.log(products);
+  // console.log(products);
 
   return <Products products={products} />;
 }

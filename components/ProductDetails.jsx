@@ -27,7 +27,7 @@ const ProductDetails = ({ product }) => {
     // console.log(productID);
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/cart`,
+      ` ${process.env.NEXT_PUBLIC_API_URL}/api/cart`,
       {
         method: "POST",
         body: JSON.stringify({ productID }),
@@ -41,7 +41,7 @@ const ProductDetails = ({ product }) => {
 
     if (!response.ok) {
       // console.log(data);
-      toast.warn(`${data.error}`, { autoClose: 1000 });
+      toast.warn(`${data.error}, { autoClose: 1000 }`);
       return;
     }
 
@@ -93,7 +93,7 @@ const ProductDetails = ({ product }) => {
       <ToastContainer position="top-right" />
       <div className="mt-16 ">
         {page === 1 && <ProductInfo product={product} />}
-        {page === 2 && <Reviews />}
+        {page === 2 && <Reviews product={product} />}
         {page === 3 && <ProductDescription product={product} />}
         {page === 4 && <Recommend />}
       </div>

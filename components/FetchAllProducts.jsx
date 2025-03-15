@@ -1,13 +1,21 @@
 import Products from "./products";
 
 export default async function FetchAllProducts() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/products`,
-    {}
-  );
-  if (!res.ok) throw new Error();
-  const products = await res.json();
-  // console.log(products);
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`, {
+      cache: "no-store", // Ensure fresh data
+    });
 
-  return <Products products={products} />;
+    if (!res.ok) {
+      const errorText = await res.text(); // Get the actual error message
+      console.error("Fetch Error:", res.status, errorText);
+      // throw new Error(`Error fetching products: ${res.status} - ${errorText}`);
+    }
+
+    const products = await res.json();
+    return <Products products={products} />;
+  } catch (error) {
+    console.error("Unexpected Error:", error);
+    return <div>Error loading products. Please try again later.</div>;
+  }
 }

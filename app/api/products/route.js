@@ -13,6 +13,7 @@ export async function GET(req) {
   try {
     await connectDB();
     const products = await Product.find().lean();
+    console.log(products);
 
     if (!products) {
       return NextResponse.json(

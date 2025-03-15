@@ -3,6 +3,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import ProductsLoadingSkeleton from "@/app/skeletons/productsLoadingSkeleton";
+import { FaStar } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import ProductCard from "./ProductCard";
 
 const Products = ({ products }) => {
   if (!products) return <ProductsLoadingSkeleton />;
@@ -10,21 +13,7 @@ const Products = ({ products }) => {
   return products.length > 0 ? (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-white pb-14 mt-[125px]">
       {products?.map((product) => (
-        <div className="flex flex-col gap-1" key={product._id}>
-          <Link href={`/listing/${product._id}`} className="bg-blue-50 p-1">
-            <div>
-              <Image
-                src={product.imageUrl}
-                alt="Screenshot"
-                width={300}
-                height={300}
-                className="w-full h-[100px] object-cover"
-              />
-              <p className="mt-2 w-full truncate">{product.title}</p>
-              <p className="text-blue-500 font-semibold">KSh {product.price}</p>
-            </div>
-          </Link>
-        </div>
+        <ProductCard key={product._id} product={product} />
       ))}
     </div>
   ) : (

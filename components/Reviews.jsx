@@ -107,14 +107,14 @@ const Reviews = ({ product }) => {
         {reviews?.map((rev) => (
           <li key={rev._id} className="flex gap-5">
             <div className="bg-gray-200 h-10 w-10 flex justify-center items-center rounded-full">
-              {rev.userID?.userName
-                ? rev.userID.userName.charAt(0).toUpperCase()
+              {rev.userID?.fullName
+                ? rev.userID.fullName.charAt(0).toUpperCase()
                 : "?"}
             </div>
 
             <div>
               <p className="capitalize font-semibold">
-                {rev?.userID?.userName}
+                {rev?.userID?.fullName}
               </p>
               <p className="text-[12px]">
                 {new Date(rev.createdAt).toDateString()} at{" "}

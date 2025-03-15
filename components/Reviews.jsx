@@ -55,7 +55,7 @@ const Reviews = ({ product }) => {
         }
 
         const json = await response.json();
-        console.log(json);
+        // console.log(json);
         setReviews(json);
       } catch (error) {
         console.log(error);
@@ -106,12 +106,12 @@ const Reviews = ({ product }) => {
       <ul className="mt-10">
         {reviews?.map((rev) => (
           <li key={rev._id} className="flex gap-5">
-            <div className="bg-gray-200 h-10 w-10 flex justify-center items-center rounded-full ">
+            <div className="bg-gray-200 h-10 w-10 flex justify-center items-center rounded-full">
               {rev.userID?.userName
-                .split("")
-                .map((l) => l)[0]
-                .toUpperCase()}
+                ? rev.userID.userName.charAt(0).toUpperCase()
+                : "?"}
             </div>
+
             <div>
               <p className="capitalize font-semibold">
                 {rev?.userID?.userName}

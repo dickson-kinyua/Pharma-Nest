@@ -1,8 +1,7 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { UserCart } from "@/Context/cartContext";
 import { useContext, useState } from "react";
 import { UserContext } from "@/Context/userContext";
@@ -12,17 +11,25 @@ import Reviews from "./Reviews";
 import ProductDescription from "./ProductDescription";
 import Recommend from "./Recommend";
 
+const TABS = [
+  { id: 1, label: "Product Info", component: ProductInfo },
+  { id: 2, label: "Reviews", component: Reviews },
+  { id: 3, label: "Description", component: ProductDescription },
+  { id: 4, label: "Recommend", component: Recommend },
+];
+
 const ProductDetails = ({ product }) => {
   const { addToCart } = UserCart();
   const { loggedUser } = useContext(UserContext);
   const router = useRouter();
-  const [page, setPage] = useState(1);
+  const [activeTab, setActiveTab] = useState(1);
 
   const handleAddToCart = async (productID) => {
     if (!loggedUser) {
       router.push(`/login?redirect=/listing/${productID}`);
       return;
     }
+    if (!product || !product._id) return;
 
     // console.log(productID);
 
@@ -41,13 +48,15 @@ const ProductDetails = ({ product }) => {
 
     if (!response.ok) {
       // console.log(data);
-      toast.warn(`${data.error}, { autoClose: 1000 }`);
+      toast.warn(data.error, { autoClose: 1000 });
       return;
     }
 
     toast.success("Successully added to cart", { autoClose: 1000 });
     addToCart(data);
   };
+
+  const ActiveComponent = TABS.find((tab) => tab.id === activeTab)?.component;
 
   return (
     <div className="flex flex-col gap-3 p-2 pb-12">
@@ -56,46 +65,24 @@ const ProductDetails = ({ product }) => {
           ↖
         </Link>
         <div className="flex justify-between">
-          <button
-            onClick={() => setPage(1)}
-            className={
-              page === 1 ? "text-blue-600 border-b-2 border-blue-500" : ""
-            }
-          >
-            Product
-          </button>
-          <button
-            onClick={() => setPage(2)}
-            className={
-              page === 2 ? "text-blue-500 border-b-2 border-blue-500" : ""
-            }
-          >
-            Reviews
-          </button>
-          <button
-            onClick={() => setPage(3)}
-            className={
-              page === 3 ? "text-blue-500 border-b-2 border-blue-500" : ""
-            }
-          >
-            Description
-          </button>
-          <button
-            onClick={() => setPage(4)}
-            className={
-              page === 4 ? "text-blue-500 border-b-2 border-blue-500 " : ""
-            }
-          >
-            Recommend
-          </button>
+          {TABS.map(({ id, label }) => (
+            <button
+              key={id}
+              onClick={() => setActiveTab(id)}
+              className={
+                activeTab === id
+                  ? "text-blue-600 border-b-2 font-bold border-blue-600"
+                  : ""
+              }
+            >
+              {label}
+            </button>
+          ))}
         </div>
       </div>
       <ToastContainer position="top-right" />
       <div className="mt-16 ">
-        {page === 1 && <ProductInfo product={product} />}
-        {page === 2 && <Reviews product={product} />}
-        {page === 3 && <ProductDescription product={product} />}
-        {page === 4 && <Recommend />}
+        {ActiveComponent && <ActiveComponent product={product} />}
       </div>
 
       <div className="fixed left-0 p-2 bg-slate-50 bottom-0 w-full  flex justify-between">

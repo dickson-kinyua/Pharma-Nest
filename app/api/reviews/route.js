@@ -47,24 +47,24 @@ export async function POST(req) {
 export async function GET(req) {
   await connectDB();
 
-  const userID = await getUser();
-  if (!userID) {
-    return NextResponse.json({ error: "Access denied" }, { status: 400 });
-  }
+  // const userID = await getUser();
+  // if (!userID) {
+  //   return NextResponse.json({ error: "Access denied" }, { status: 400 });
+  // }
 
   const { searchParams } = new URL(req.url);
   const productID = searchParams.get("id");
   console.log("get Reviews prodID", productID);
 
   if (!productID) {
-    const reviews = await Review.find().populate("userID", "userName"); // Fetch reviews with user info
+    const reviews = await Review.find().populate("userID", "fullName"); // Fetch reviews with user info
     return NextResponse.json(reviews, { status: 200 });
   }
 
   try {
     const reviews = await Review.find({ productID }).populate(
       "userID",
-      "userName"
+      "fullName"
     ); // Fetch reviews with user info
     return NextResponse.json(reviews, { status: 200 });
   } catch (error) {

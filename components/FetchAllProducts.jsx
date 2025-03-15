@@ -7,7 +7,7 @@ export default async function FetchAllProducts() {
     });
 
     if (!res.ok) {
-      const errorText = await res.text(); // Get the actual error message
+      const errorText = await res.json();
       console.error("Fetch Error:", res.status, errorText);
       // throw new Error(`Error fetching products: ${res.status} - ${errorText}`);
     }

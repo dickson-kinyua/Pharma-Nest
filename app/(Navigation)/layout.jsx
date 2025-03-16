@@ -41,7 +41,9 @@ const WithNavbarLayout = ({ children }) => {
         </Link>
         <Link
           href={"/favourites"}
-          className={`relative ${pathname === "/cart" ? "text-red-600" : ""}`}
+          className={`relative ${
+            pathname === "/favourites" ? "text-red-600" : ""
+          }`}
         >
           <li className="flex flex-col items-center">
             <FaRegHeart className="text-[20px]" />

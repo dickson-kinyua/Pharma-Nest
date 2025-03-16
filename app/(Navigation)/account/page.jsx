@@ -78,11 +78,14 @@ const Account = () => {
         <Link href={"/"} className="underline">
           ↖ back
         </Link>
-        <img
-          className="w-5 h-5 rounded-full"
-          src={session?.user?.image}
-          alt="profile"
-        />
+        {session?.user?.image ? (
+          <img
+            className="w-5 h-5 rounded-full"
+            src={session?.user?.image}
+            alt="profile"
+          />
+        ) : null}
+
         <button onClick={handleLogout}>Logout</button>
       </div>
       <Orders />

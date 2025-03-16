@@ -20,7 +20,6 @@ const CarFetch = () => {
 
   useEffect(() => {
     const verifyUser = async () => {
-      console.log(session);
       if (session?.user) {
         setLoggedUser(session.user);
         setCheckingAuth(false);

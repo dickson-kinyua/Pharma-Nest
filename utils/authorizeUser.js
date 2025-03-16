@@ -9,9 +9,9 @@ async function getUser() {
     // 1. Try getting the user from NextAuth session
     const session = await getServerSession(authOptions);
     console.log("Session:", session);
-    if (session?.user?.userID) {
-      console.log("User ID from session:", session.user.userID);
-      return session.user.userID;
+    if (session?.user?.id) {
+      console.log("User ID from session:", session.user.id);
+      return session.user.id;
     }
     // 2. Try getting the user from JWT cookie
     const cookieStore = await cookies();

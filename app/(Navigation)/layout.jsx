@@ -1,21 +1,32 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { UserCart } from "@/Context/cartContext";
+// import { UserCart } from "@/Context/cartContext";
+import {
+  FaHome,
+  FaShoppingCart,
+  FaRegCommentDots,
+  FaUser,
+  FaRegHeart,
+} from "react-icons/fa";
 
 const WithNavbarLayout = ({ children }) => {
   const pathname = usePathname();
-  const { cartList } = UserCart();
+  // const { cartList } = UserCart();
 
   return (
     <div>
       <div>{children}</div>
-      <ul className="w-full fixed bottom-0 flex flex-row justify-between p-5 bg-slate-50">
+      <ul className="w-full fixed bottom-0 flex flex-row justify-between py-2 px-3 bg-slate-50">
         <Link
           href={"/"}
           className={`${pathname === "/" ? "text-red-600" : ""}`}
         >
-          <li>Home</li>
+          <li className="flex flex-col items-center">
+            {" "}
+            <FaHome className="text-[20px]" />
+            Home
+          </li>
         </Link>
 
         <Link
@@ -24,22 +35,34 @@ const WithNavbarLayout = ({ children }) => {
             pathname === "/message" ? "text-red-600" : ""
           }`}
         >
-          <li>Message</li>
+          <li className="flex flex-col items-center">
+            <FaRegCommentDots className="text-[20px]" /> Message
+          </li>
+        </Link>
+        <Link
+          href={"/favourites"}
+          className={`relative ${pathname === "/cart" ? "text-red-600" : ""}`}
+        >
+          <li className="flex flex-col items-center">
+            <FaRegHeart className="text-[20px]" />
+            Favorites
+          </li>
         </Link>
         <Link
           href={"/cart"}
           className={`relative ${pathname === "/cart" ? "text-red-600" : ""}`}
         >
-          <li>Cart</li>
-          <p className="absolute flex items-end justify-center top-[-14px] right-[-24px]  bg-gray-800 h-6 w-6 rounded-full text-sm text-white">
-            {cartList?.length}
-          </p>
+          <li className="flex flex-col items-center">
+            <FaShoppingCart className="text-[20px]" /> Cart
+          </li>
         </Link>
         <Link
           href={"/account"}
           className={`${pathname === "/account" ? "text-red-600" : ""}`}
         >
-          <li>Account</li>
+          <li className="flex flex-col items-center">
+            <FaUser className="text-[20px]" /> Account
+          </li>
         </Link>
       </ul>
     </div>

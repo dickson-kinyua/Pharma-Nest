@@ -9,16 +9,24 @@ import { useSession } from "next-auth/react";
 
 const CarFetch = () => {
   const router = useRouter();
-  const { session, status } = useSession();
+  const { data: session, status } = useSession();
 
   const { loggedUser, setLoggedUser } = useLoggedUser();
   const { setCartList } = UserCart();
   const [cartItems, setCartItems] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [checkingAuth, setCheckingAuth] = useState(true); // Track auth check
+  const [checkingAuth, setCheckingAuth] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const verifyUser = async () => {
+      console.log(session);
+      if (session?.user) {
+        setLoggedUser(session.user);
+        setCheckingAuth(false);
+        return;
+      }
+
       try {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`,
@@ -29,34 +37,24 @@ const CarFetch = () => {
         );
 
         const data = await res.json();
-        // console.log(data);
 
         if (res.ok) {
-          if (session?.user) {
-            setLoggedUser(session?.user);
-            return;
-          } else {
-            setLoggedUser(data);
-          }
+          setLoggedUser(data);
         } else {
-          if (session?.user) {
-            setLoggedUser(session?.user);
-          } else {
-            setLoggedUser(null); // Ensure it's explicitly set
-            router.push(`/login?redirect=/cart`);
-          }
+          setLoggedUser(null);
+          router.push(`/login?redirect=/cart`);
         }
       } catch (error) {
         console.error("Error verifying user:", error);
         setLoggedUser(null);
         router.push(`/login?redirect=/cart`);
       } finally {
-        setCheckingAuth(false); // Done checking authentication
+        setCheckingAuth(false);
       }
     };
 
     verifyUser();
-  }, [setLoggedUser, router]);
+  }, [session, setLoggedUser, router]);
 
   const fetchCart = async () => {
     try {
@@ -73,27 +71,32 @@ const CarFetch = () => {
         setCartItems(data);
         setCartList(data);
       } else {
-        console.log(data.error);
+        setError(data.error || "Failed to fetch cart");
       }
     } catch (error) {
       console.error("Error fetching cart:", error);
+      setError("An unexpected error occurred while fetching the cart.");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (loggedUser) {
+    if (!checkingAuth && loggedUser) {
       fetchCart();
     }
-  }, [loggedUser]); // Fetch cart once user authentication is confirmed
+  }, [checkingAuth, loggedUser]);
 
-  // Prevent rendering while checking authentication
   if (checkingAuth) {
-    return <p>Loading...</p>; // Can replace with a proper loader
+    return <p>Loading...</p>;
   }
 
-  return <Cart cartItems={cartItems} fetchCart={fetchCart} loading={loading} />;
+  return (
+    <div>
+      {error && <p className="text-red-500">{error}</p>}
+      <Cart cartItems={cartItems} fetchCart={fetchCart} loading={loading} />
+    </div>
+  );
 };
 
 export default CarFetch;

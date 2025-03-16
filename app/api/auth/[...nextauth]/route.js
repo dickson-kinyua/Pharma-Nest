@@ -6,7 +6,7 @@ import { connectDB } from "@/utils/mongodb";
 import jwt from "jsonwebtoken";
 import User from "@/models/userModel";
 
-console.log(User);
+// console.log(User);
 
 export const authOptions = {
   providers: [

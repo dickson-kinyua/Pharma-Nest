@@ -1,32 +1,15 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify";
 import OrderSummary from "./orderSummary";
 import CartItem from "./CartItem";
-import LoginPage from "@/app/(Others)/login/page";
 import { useLoggedUser } from "@/Context/userContext";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { FaShoppingCart } from "react-icons/fa";
 
 const Cart = ({ cartItems, fetchCart, loading }) => {
-  const router = useRouter();
-
-  const { loggedUser, setLoggedUser } = useLoggedUser();
-  const { session, status } = useSession(); // Get session data
-
-  useEffect(() => {
-    if (session?.user && !loggedUser) {
-      setLoggedUser(session.user);
-    }
-  }, [session, loggedUser, setLoggedUser]);
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      router.replace("/cart"); // ✅ Ensures immediate navigation without history stack issues
-    }
-  }, [status, router]);
+  const { loggedUser } = useLoggedUser();
 
   // Calculate totals
   const subTotal = cartItems?.reduce(
@@ -58,12 +41,6 @@ const Cart = ({ cartItems, fetchCart, loading }) => {
     }
   }
 
-  // If session is still loading
-  if (status === "loading" && !loggedUser) return <p>Loading...</p>;
-
-  // If no user is logged in
-  if (!loggedUser?.email) return <LoginPage />;
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-28">
@@ -76,8 +53,6 @@ const Cart = ({ cartItems, fetchCart, loading }) => {
     <div className="p-6 flex flex-col gap-2 pb-20">
       <ToastContainer position="top-right" />
       <h1 className="text-xl font-bold mb-4">
-        {session?.user &&
-          ` Hi,${session.user?.name.split(" ")[0]}! Your cart is here`}
         {loggedUser?.fullName &&
           ` Hi,${loggedUser?.fullName.split(" ")[0]}! Your cart is here`}
       </h1>
@@ -88,7 +63,19 @@ const Cart = ({ cartItems, fetchCart, loading }) => {
         <input type="file" id="file" />
       </form>
       {cartItems?.length === 0 ? (
-        <p>Your cart is empty</p>
+        <div className="w-full mt-10 flex flex-col gap-2 items-center">
+          <FaShoppingCart size={40} />
+          <p className="font-bold">Your cart is currently empty!</p>
+          <p className="text-center">
+            Click below to start shoping and grab what you need!
+          </p>
+          <Link
+            href={"/"}
+            className="w-full bg-blue-500 text-white block mt-5 p-2 text-center font-semibold"
+          >
+            Start Shopping
+          </Link>
+        </div>
       ) : (
         <>
           <ul className="flex flex-col gap-1">

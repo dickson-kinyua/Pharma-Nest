@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { FaPhone } from "react-icons/fa";
 
 const AdBanner = () => {
   const images = [
@@ -29,20 +30,19 @@ const AdBanner = () => {
   }, []);
 
   return (
-    <div className="w-full bg-blue-500 text-white">
-      <div
-        className={`text-center py-3 px-4 shadow-lg transition-all duration-100 ${
-          isVisible ? "opacity-500 translate-y-0" : "hidden"
-        }`}
-      >
-        <p className="animate-pulse text-sm">
-          🔥Special Deal! Free Shipping on all Orders!🔥
-        </p>
-      </div>
-      {/* <div className="text-sm p-2 flex flex-row justify-between">
-        <p className="self-center text-center">{message}</p>
-        <img className="w-1/2 h-20" src={image} alt="pic" />
-      </div> */}
+    <div className="mx-0  w-full bg-blue-500 text-white py-[1px] px-1 flex justify-between">
+      <p className="text-sm leading-4 font-semibold  ">
+        <span className="tracking-tighter uppercase text-xl font-extrabold">
+          One-Stop
+        </span>{" "}
+        <br /> <span className="text-sm tracking-wider ml-1">Health Shop!</span>
+      </p>
+      <p className="flex flex-col items-center">
+        <span className="animate-pulse">Call or WhatsApp to order</span>
+        <span className="font-bold text-xl flex gap-1 items-center">
+          <FaPhone className="rotate-[90deg]" /> 0745133665
+        </span>
+      </p>
     </div>
   );
 };

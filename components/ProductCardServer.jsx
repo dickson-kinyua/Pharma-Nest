@@ -16,7 +16,7 @@ const ProductCardServer = async ({ product }) => {
   }
 
   const reviews = await response.json();
-  console.log(reviews);
+  // console.log(reviews);
 
   return <ProductCard product={product} reviews={reviews} />;
 };

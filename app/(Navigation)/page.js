@@ -13,7 +13,7 @@ export default async function Home({ searchParams }) {
 
   return (
     <div className="px-3 flex flex-col gap-1 bg-[#fffdfd]">
-      <Header />
+      {/* <Header /> */}
       <FetchAllProducts />
     </div>
   );

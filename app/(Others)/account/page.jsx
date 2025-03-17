@@ -16,42 +16,42 @@ const Account = () => {
   const { clearCart } = UserCart();
   const [checkingAuth, setCheckingAuth] = useState(true); // Track auth check
 
-  useEffect(() => {
-    const verifyUser = async () => {
-      if (session?.user) {
-        setLoggedUser(session.user);
-        setCheckingAuth(false);
-        return;
-      }
+  // useEffect(() => {
+  //   const verifyUser = async () => {
+  //     if (session?.user) {
+  //       setLoggedUser(session.user);
+  //       setCheckingAuth(false);
+  //       return;
+  //     }
 
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`,
-          {
-            credentials: "include",
-            cache: "no-store",
-          }
-        );
+  //     try {
+  //       const res = await fetch(
+  //         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`,
+  //         {
+  //           credentials: "include",
+  //           cache: "no-store",
+  //         }
+  //       );
 
-        const data = await res.json();
+  //       const data = await res.json();
 
-        if (res.ok) {
-          setLoggedUser(data);
-        } else {
-          setLoggedUser(null);
-          router.push(`/login?redirect=/account`);
-        }
-      } catch (error) {
-        console.error("Error verifying user:", error);
-        setLoggedUser(null);
-        router.push(`/login?redirect=/account`);
-      } finally {
-        setCheckingAuth(false);
-      }
-    };
+  //       if (res.ok) {
+  //         setLoggedUser(data);
+  //       } else {
+  //         setLoggedUser(null);
+  //         router.push(`/login?redirect=/account`);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error verifying user:", error);
+  //       setLoggedUser(null);
+  //       router.push(`/login?redirect=/account`);
+  //     } finally {
+  //       setCheckingAuth(false);
+  //     }
+  //   };
 
-    verifyUser();
-  }, [session, setLoggedUser, router]);
+  //   verifyUser();
+  // }, [session, setLoggedUser, router]);
 
   const handleLogout = async () => {
     try {
@@ -68,12 +68,12 @@ const Account = () => {
     }
   };
 
-  if (checkingAuth || !loggedUser) {
-    return <p>Loading...</p>;
-  }
+  // if (checkingAuth || !loggedUser) {
+  //   return <p>Loading...</p>;
+  // }
 
   return (
-    <div className="p-3 flex flex-col gap-3 bg-gray-200 text-sm h-svh">
+    <div className="p-3 flex flex-col gap-3 text-sm ">
       <div className="bg-blue-500 p-4 flex justify-between gap-4 text-white">
         <Link href={"/"} className="underline">
           ↖ back

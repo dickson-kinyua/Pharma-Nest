@@ -10,6 +10,7 @@ import ProductInfo from "./ProductInfo";
 import Reviews from "./Reviews";
 import ProductDescription from "./ProductDescription";
 import Recommend from "./Recommend";
+import { FaHome } from "react-icons/fa";
 
 const TABS = [
   { id: 1, label: "Product Info", component: ProductInfo },
@@ -59,10 +60,10 @@ const ProductDetails = ({ product }) => {
   const ActiveComponent = TABS.find((tab) => tab.id === activeTab)?.component;
 
   return (
-    <div className="flex flex-col gap-3 p-2 pb-12">
-      <div className="flex flex-col gap-3 fixed top-0 right-0 left-0 bg-[white] p-2">
+    <div className="flex flex-col gap-3 p-2 pb-12 mt-[125px]">
+      <div className="flex flex-col gap-3 bg-[white] p-2 fixed top-[150px] right-0 left-0 z-40">
         <Link href={"/"} className="text-xl">
-          ↖
+          <FaHome size={22} />
         </Link>
         <div className="flex justify-between">
           {TABS.map(({ id, label }) => (

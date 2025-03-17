@@ -2,73 +2,32 @@
 
 import Cart from "@/components/Cart";
 import { useEffect, useState } from "react";
-import { UserCart } from "@/Context/cartContext";
-import { useLoggedUser } from "@/Context/userContext";
+// import { UserCart } from "@/Context/cartContext";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { UserCart } from "@/Context/cartContext";
 
 const CarFetch = () => {
   const router = useRouter();
-  const { data: session, status } = useSession();
-
-  const { loggedUser, setLoggedUser } = useLoggedUser();
-  const { setCartList } = UserCart();
   const [cartItems, setCartItems] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [checkingAuth, setCheckingAuth] = useState(true);
   const [error, setError] = useState(null);
+  const { setCartList } = UserCart();
 
-  useEffect(() => {
-    const verifyUser = async () => {
-      if (session?.user) {
-        setLoggedUser(session.user);
-        setCheckingAuth(false);
-        return;
-      }
-
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`,
-          {
-            credentials: "include",
-            cache: "no-store",
-          }
-        );
-
-        const data = await res.json();
-
-        if (res.ok) {
-          setLoggedUser(data);
-        } else {
-          setLoggedUser(null);
-          router.push(`/login?redirect=/cart`);
-        }
-      } catch (error) {
-        console.error("Error verifying user:", error);
-        setLoggedUser(null);
-        router.push(`/login?redirect=/cart`);
-      } finally {
-        setCheckingAuth(false);
-      }
-    };
-
-    verifyUser();
-  }, [session, setLoggedUser, router]);
-
+  // Fetch cart items after verifying the user with middleware
   const fetchCart = async () => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/cart`,
         {
           cache: "no-store",
-          credentials: "include",
+          credentials: "include", // Ensure the cookie is sent
         }
       );
 
       const data = await response.json();
       if (response.ok) {
         setCartItems(data);
-        setCartList(data);
+        setCartList(data); // Update global cart context if needed
       } else {
         setError(data.error || "Failed to fetch cart");
       }
@@ -81,17 +40,11 @@ const CarFetch = () => {
   };
 
   useEffect(() => {
-    if (!checkingAuth && loggedUser) {
-      fetchCart();
-    }
-  }, [checkingAuth, loggedUser]);
-
-  if (checkingAuth) {
-    return <p>Loading...</p>;
-  }
+    fetchCart();
+  }, []);
 
   return (
-    <div>
+    <div className="mt-[110px]">
       {error && <p className="text-red-500">{error}</p>}
       <Cart cartItems={cartItems} fetchCart={fetchCart} loading={loading} />
     </div>

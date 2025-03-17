@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaHeart } from "react-icons/fa";
 
 const ProductCard = ({ product, reviews = [] }) => {
   const productReviews = reviews.filter(
@@ -18,14 +18,17 @@ const ProductCard = ({ product, reviews = [] }) => {
 
   return (
     <Link href={`/listing/${product._id}`} className="bg-blue-50 p-1">
-      <div>
-        <Image
-          src={product.imageUrl}
-          alt="Product Image"
-          width={300}
-          height={300}
-          className="w-full h-[100px] object-cover"
-        />
+      <div className="w-full flex flex-col ">
+        <div className="w-full h-24 flex items-center">
+          <Image
+            src={product.imageUrl}
+            alt="Product Image"
+            width={200}
+            height={400}
+            className="w-full h-full mx-auto"
+          />
+        </div>
+
         <p className="mt-2 w-full truncate">{product.title}</p>
         <p className="text-blue-500 font-semibold">KSh {product.price}</p>
 

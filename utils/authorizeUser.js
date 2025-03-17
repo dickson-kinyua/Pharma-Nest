@@ -19,7 +19,7 @@ async function getUser() {
     console.log("Token from cookie:", token);
     if (token) {
       try {
-        const decoded = verifyToken(token);
+        const decoded = await verifyToken(token);
         console.log("Decoded token:", decoded);
         return decoded.userID; // Ensure JWT contains userID
       } catch (error) {

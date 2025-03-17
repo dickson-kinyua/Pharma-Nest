@@ -1,8 +1,8 @@
 import bcrypt from "bcryptjs";
 import User from "@/models/userModel";
-import { generateToken } from "@/utils/auth";
 import { connectDB } from "@/utils/mongodb";
 import { NextResponse } from "next/server";
+import { generateToken } from "@/utils/auth";
 
 export async function POST(req) {
   await connectDB();
@@ -34,8 +34,8 @@ export async function POST(req) {
       );
     }
 
-    const token = generateToken(user);
-    console.log(token);
+    const token = await generateToken(user);
+    console.log("token after login:", token);
 
     //setting the token in an HttpOnly cookie
     const response = NextResponse.json({

@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import SearchResults from "./SearchResults";
+import { FaSearch } from "react-icons/fa";
 
 const placeholders = [
   "Looking for cough syrup or antibiotics?",
@@ -64,11 +65,12 @@ const Search = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 mx-3">
       <form
-        className="w-full sm:w-1/2 mx-auto border bg-white border-blue-400 p-2 relative rounded-xl"
+        className="w-full sm:w-1/2 mx-auto border bg-white border-blue-400 p-2 relative rounded-xl flex gap-2 items-center"
         onSubmit={(e) => e.preventDefault()}
       >
+        <FaSearch size={20} />
         <input
           type="text"
           onChange={fetchSearchResults}

@@ -31,11 +31,11 @@ const AdBanner = () => {
 
   return (
     <div className="mx-0  w-full bg-blue-500 text-white py-[1px] px-1 flex justify-between">
-      <p className="text-sm leading-4 font-semibold  ">
-        <span className="tracking-tighter uppercase text-xl font-extrabold">
+      <p className="text-sm leading-4 font-semibold  flex flex-col items-center">
+        <span className="tracking-tight uppercase text-xl font-extrabold">
           One-Stop
         </span>{" "}
-        <br /> <span className="text-sm tracking-wider ml-1">Health Shop!</span>
+        <span className="text-sm tracking-wider">Health Shop!</span>
       </p>
       <p className="flex flex-col items-center">
         <span className="animate-pulse">Call or WhatsApp to order</span>

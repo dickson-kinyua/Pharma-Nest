@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLoggedUser } from "@/Context/userContext";
 import { signIn } from "next-auth/react"; // Import signIn from next-auth
+import { FaGoogle } from "react-icons/fa";
 
 const RegisterPage = () => {
   const [fullName, setFullName] = useState("");
@@ -38,16 +39,25 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-2 p-4">
+    <div className="w-full flex flex-col">
       <ToastContainer position="top-right" />
-      <p className="font-semibold text-2xl mb-5">Create an account</p>
-      <p className="mb-4">
+      <div className="h-[150px] bg-blue-600 flex flex-col gap-3 p-2 justify-center">
+        <Link href="/" className="text-white underline">
+          ↖ back
+        </Link>
+        <p className="tracking-tighter text-3xl text-white font-bold">
+          Welcome to <br /> PharmaNest
+        </p>
+        <p className="text-gray-200 text-sm">Welcome to PharmaNest</p>
+      </div>
+      <p className="font-semibold text-2xl my-5 mx-3">Create an account</p>
+      <p className="mb-4 mx-3">
         Already have an account?{" "}
         <Link href={"/login"} className="underline">
           Login
         </Link>
       </p>
-      <form className="flex flex-col gap-2 w-full" onSubmit={handleRegister}>
+      <form className="flex flex-col gap-2 mx-3" onSubmit={handleRegister}>
         <input
           type="text"
           required
@@ -74,10 +84,13 @@ const RegisterPage = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <p>
-          <input required type="checkbox" className="mr-2" />I agree to{" "}
+          <input type="checkbox" defaultChecked className="mr-2" />I agree to{" "}
           <Link href={"/terms"}>Terms & Conditions</Link>
         </p>
-        <button type="submit" className="bg-blue-600 p-1 text-white mt-3">
+        <button
+          type="submit"
+          className="bg-blue-600 p-2 rounded-2xl text-white mt-3"
+        >
           Create account
         </button>
       </form>
@@ -86,12 +99,13 @@ const RegisterPage = () => {
         <p className="text-center font-semibold">Or register with</p>
         <div className="border flex-grow border-solid border-gray-400"></div>
       </div>
-      {/* <button
-        className="border border-gray-400 rounded-2xl w-fit py-1 px-5 text-gray-700 font-semibold mt-5"
+      <button
+        className="border border-gray-400 rounded-2xl mx-auto w-fit py-2 px-5 text-gray-700 font-semibold mt-5 flex items-center gap-1"
         onClick={() => signIn("google")}
       >
-        Sign up with Google
-      </button> */}
+        <FaGoogle />
+        Sign in with Google
+      </button>
     </div>
   );
 };

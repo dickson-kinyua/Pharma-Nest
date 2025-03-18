@@ -22,7 +22,7 @@ export default function RootLayoutClient({ children }) {
       <UserContextProvider>
         <CartProvider>
           <div
-            className={`${geistSans.variable} ${geistMono.variable} antialiased text-gray-600 text-sm`}
+            className={`${geistSans.variable} ${geistMono.variable} antialiased  text-sm`}
           >
             {children}
           </div>

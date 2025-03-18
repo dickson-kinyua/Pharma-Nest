@@ -13,11 +13,15 @@ const Header = () => {
   }).format(new Date());
 
   return (
-    <div className="fixed top-0 left-0 right-0 bg-[#ffffff] flex flex-col gap-3 pb-3">
-      <AdBanner />
-      <Navigation />
-      <Search />
-    </div>
+    <>
+      <div className=" flex flex-col gap-4 pb-3">
+        <AdBanner />
+      </div>
+      <div className="bg-[#ffffff] flex flex-col gap-2 py-2 sticky transform-none top-0">
+        <Navigation />
+        <Search />
+      </div>
+    </>
   );
 };
 

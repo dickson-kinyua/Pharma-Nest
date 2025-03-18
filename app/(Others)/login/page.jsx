@@ -7,6 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { FaGoogle } from "react-icons/fa";
 
 const LoginPage = () => (
   <Suspense fallback={<p>Loading...</p>}>
@@ -20,6 +21,7 @@ const LoginContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get("redirect") || "/";
+  const [signingIn, setSigningIn] = useState(false);
 
   useEffect(() => {
     if (loggedUser) {
@@ -32,6 +34,7 @@ const LoginContent = () => {
   };
 
   const handleLogin = async (e) => {
+    setSigningIn(true);
     e.preventDefault();
     try {
       const res = await fetch(
@@ -52,9 +55,12 @@ const LoginContent = () => {
       }
 
       setLoggedUser(data.userInfo);
+      setSigningIn(false);
     } catch (error) {
       console.error("Login failed", error);
       toast.error("Something went wrong! Please try again.");
+    } finally {
+      setSigningIn(false);
     }
   };
 
@@ -76,16 +82,20 @@ const LoginContent = () => {
           value={credentials.password}
           onChange={handleInputChange}
         />
-        <Link className="text-blue-600 self-end" href="#">
-          Forgot Password?
+        <Link className="text-blue-600 self-end text-sm underline" href="#">
+          forgot password
         </Link>
-        <button type="submit" className="bg-blue-600 p-2 text-white rounded">
+        <button
+          type="submit"
+          disabled={signingIn}
+          className="bg-blue-600 p-2 text-white rounded"
+        >
           Login
         </button>
         <ToastContainer position="top-right" />
       </form>
-      <RegisterSection />
       <SocialLogin />
+      <RegisterSection />
     </div>
   );
 };
@@ -118,7 +128,7 @@ const InputField = ({ label, type, name, value, onChange }) => (
 );
 
 const RegisterSection = () => (
-  <p className="px-3">
+  <p className="px-3 mt-4 text-center">
     Don't have an account?{" "}
     <Link href="/register" className="underline text-blue-600">
       Register
@@ -127,16 +137,17 @@ const RegisterSection = () => (
 );
 
 const SocialLogin = () => (
-  <div className="p-3 flex flex-col gap-4">
+  <div className="p-3 flex flex-col gap-4 items-center">
     <div className="flex items-center gap-1 my-4">
       <div className="flex-grow border-t border-gray-300"></div>
       <p className="text-center font-semibold">Or continue with</p>
       <div className="flex-grow border-t border-gray-300"></div>
     </div>
     <button
-      className="border-gray-300 border rounded-2xl w-fit py-1 px-7 text-gray-900 font-semibold"
+      className="border-gray-300 border rounded-2xl w-fit py-2 px-7 text-gray-900 font-semibold flex items-center gap-1"
       onClick={() => signIn("google")}
     >
+      <FaGoogle />
       Sign in with Google
     </button>
   </div>

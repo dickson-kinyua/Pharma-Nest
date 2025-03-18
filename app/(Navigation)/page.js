@@ -1,5 +1,4 @@
 import FetchAllProducts from "@/components/FetchAllProducts";
-import Header from "@/components/Header";
 
 export const metadata = {
   title: "PharmaNext || Delivering health services o your doorstep",
@@ -13,7 +12,6 @@ export default async function Home({ searchParams }) {
 
   return (
     <div className="px-3 flex flex-col gap-1 bg-[#fffdfd]">
-      {/* <Header /> */}
       <FetchAllProducts />
     </div>
   );

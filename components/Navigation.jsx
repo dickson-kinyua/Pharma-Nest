@@ -20,10 +20,10 @@ const Navigation = () => {
   }
 
   return (
-    <div className="flex justify-between items-center px-4">
-      <div className="flex gap-5 items-center">
+    <div className="flex justify-between items-center px-4 text-black">
+      <div className="flex gap-5 items-center text-black  ">
         <FaBars size={20} onClick={toggleMenu} />
-        <p className="font-extrabold text-[18px] uppercase">PharmaNest</p>
+        <p className="font-extrabold text-[16px] uppercase ">PharmaNest</p>
       </div>
       <div className="flex gap-6">
         <Link
@@ -46,12 +46,18 @@ const Navigation = () => {
         </Link>
       </div>
       {menuStatus && (
-        <div className="absolute top-0 left-[-5px] w-[90%] z-50 text-gray-950 bg-white h-[100vh] p-3">
-          <div className="flex gap-9 items-center">
-            <FaTimes size={22} onClick={() => setMenuStatus(false)} />
-            <p className="font-extrabold text-[18px] uppercase">PharmaNest</p>
+        <>
+          <div
+            className="fixed top-0 left-0 bg-black z-30 opacity-35 w-full h-[100vh]"
+            onClick={() => setMenuStatus(false)}
+          ></div>
+          <div className="fixed top-0 left-[-5px] w-[90%] z-50 text-gray-950 bg-blue-50 h-[100vh] p-3 overflow-hidden">
+            <div className="flex gap-9 items-center">
+              <FaTimes size={22} onClick={() => setMenuStatus(false)} />
+              <p className="font-extrabold text-[18px] uppercase">PharmaNest</p>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

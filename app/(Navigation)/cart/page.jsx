@@ -44,7 +44,7 @@ const CarFetch = () => {
   }, []);
 
   return (
-    <div className="mt-[110px]">
+    <div className="mt-[80px]">
       {error && <p className="text-red-500">{error}</p>}
       <Cart cartItems={cartItems} fetchCart={fetchCart} loading={loading} />
     </div>

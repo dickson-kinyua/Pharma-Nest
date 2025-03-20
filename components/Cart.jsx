@@ -44,7 +44,10 @@ const Cart = ({ cartItems, fetchCart, loading }) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-28">
-        <div className="animate-spin h-5 w-5 rounded-full border-t-2 border-blue-500"></div>
+        <div className="animate-pulse flex items-center justify-center  border-2 border-blue-500 font-bold">
+          <div className="fixed top-0 left-0 bg-black opacity-40 h-[100vh] w-full"></div>
+          <p>PharmaNest</p>
+        </div>
       </div>
     );
   }
@@ -52,10 +55,6 @@ const Cart = ({ cartItems, fetchCart, loading }) => {
   return (
     <div className="p-6 flex flex-col gap-2 pb-20">
       <ToastContainer position="top-right" />
-      <h1 className="text-xl font-bold mb-4">
-        {loggedUser?.fullName &&
-          ` Hi,${loggedUser?.fullName.split(" ")[0]}! Your cart is here`}
-      </h1>
       <form className="bg-blue-500 p-2 text-white">
         <label htmlFor="file" className="font-bold">
           Upload an image for your prescription

@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { useState } from "react";
 import ResetPasswordForm from "./ResetPasswordForm";
+import Address from "./Address";
 
 const Services = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordResetForm, setPassworddResetForm] = useState(false);
+  const [showAddress, setShowAddress] = useState(false);
   const [error, setError] = useState(null);
 
   const handlePasswordChange = async (e) => {
@@ -36,11 +38,24 @@ const Services = () => {
     }
   };
 
+  function handleAddress() {
+    setShowAddress((cur) => !cur);
+  }
+
   return (
     <div className="flex flex-col gap-2 bg-white p-2 w-full">
+      {(passwordResetForm || showAddress) && (
+        <div
+          className="fixed top-0 left-0 w-full h-[100vh] bg-black opacity-75"
+          onClick={() => {
+            setPassworddResetForm(false);
+            setShowAddress(false);
+          }}
+        ></div>
+      )}
       <p className="font-semibold">My Services</p>
       <div className="flex justify-between">
-        <Link href={"#"}>Address</Link>
+        <button onClick={handleAddress}>Address</button>
         <button onClick={() => setPassworddResetForm(!passwordResetForm)}>
           Change password
         </button>
@@ -59,6 +74,8 @@ const Services = () => {
           onChangePassword={handlePasswordChange}
         />
       )}
+
+      {showAddress && <Address />}
     </div>
   );
 };

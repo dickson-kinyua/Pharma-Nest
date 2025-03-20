@@ -10,7 +10,7 @@ const ResetPasswordForm = ({
   setError,
 }) => {
   return (
-    <form className="flex flex-col gap-1 w-fit bg-blue-500 p-2">
+    <form className="mx-auto flex flex-col gap-1 w-2/3 bg-blue-500 p-2 z-30">
       <label htmlFor="old" className="text-white">
         Old password:
       </label>
@@ -19,6 +19,7 @@ const ResetPasswordForm = ({
         id="old"
         value={oldPassword}
         onChange={(e) => setOldPassword(e.target.value)}
+        className="p-2"
       />
       <label htmlFor="new" className="text-white">
         New password
@@ -28,6 +29,7 @@ const ResetPasswordForm = ({
         id="new"
         value={newPassword}
         onChange={(e) => setNewPassword(e.target.value)}
+        className="p-2"
       />
       <label htmlFor="confirm" className="text-white">
         Confirm New password
@@ -37,10 +39,11 @@ const ResetPasswordForm = ({
         id="confirm"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
+        className="p-2"
       />
       <button
         type="submit"
-        className="text-white p-2 bg-gray-600"
+        className="text-white p-2 bg-gray-900"
         onClick={onChangePassword}
       >
         Change password

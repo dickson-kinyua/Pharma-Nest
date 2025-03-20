@@ -5,7 +5,7 @@ import Search from "./Search";
 import AdBanner from "./adBanner";
 import Navigation from "./Navigation";
 
-const Header = () => {
+const Header = ({ onCartClick }) => {
   const formattedDate = new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "long",
@@ -18,8 +18,7 @@ const Header = () => {
         <AdBanner />
       </div>
       <div className="bg-[#ffffff] flex flex-col gap-2 py-2 sticky transform-none top-0">
-        <Navigation />
-        <Search />
+        <Navigation onCartClick={onCartClick} />
       </div>
     </>
   );

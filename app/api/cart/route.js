@@ -109,8 +109,9 @@ export async function POST(req) {
 // Fetch user’s cart
 export async function GET(req) {
   await connectDB();
-
+  console.log("Headers received in API:", req.headers);
   const userID = await getUser();
+  console.log("cart userID", userID);
   if (!userID) {
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
   }

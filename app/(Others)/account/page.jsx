@@ -73,7 +73,7 @@ const Account = () => {
   // }
 
   return (
-    <div className="p-3 flex flex-col gap-3 text-sm ">
+    <div className="p-3 flex flex-col gap-3 text-sm">
       <div className="bg-blue-500 p-4 flex justify-between gap-4 text-white">
         <Link href={"/"} className="underline">
           ↖ back

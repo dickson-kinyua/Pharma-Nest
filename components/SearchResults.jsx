@@ -4,7 +4,7 @@ const SearchResults = ({ results }) => {
   // console.log(results);
 
   return (
-    <ul className="flex flex-col gap-2 px-3 py-5 border absolute top-[90px] bg-slate-50 w-full z-20  shadow-gray-500  shadow-inner">
+    <ul className="flex flex-col gap-2 px-3 py-5 border absolute top-[42px] bg-slate-50 w-full z-20  shadow-gray-500  shadow-inner">
       {results.map((result) => (
         <Link href={`/listing/${result._id}`} key={result._id}>
           <li

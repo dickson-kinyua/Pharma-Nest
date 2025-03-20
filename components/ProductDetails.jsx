@@ -62,9 +62,6 @@ const ProductDetails = ({ product }) => {
   return (
     <div className="flex flex-col gap-3 p-2 pb-12">
       <div className="flex flex-col gap-3 bg-[white] p-2 fixed right-0 left-0">
-        <Link href={"/"} className="text-xl">
-          <FaHome size={22} />
-        </Link>
         <div className="flex justify-between">
           {TABS.map(({ id, label }) => (
             <button

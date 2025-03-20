@@ -8,7 +8,7 @@ import { useLoggedUser } from "@/Context/userContext";
 import Link from "next/link";
 import { FaShoppingCart } from "react-icons/fa";
 
-const Cart = ({ cartItems, fetchCart, loading }) => {
+const Cart = ({ cartItems, onFetchCart, loading }) => {
   const { loggedUser } = useLoggedUser();
 
   // Calculate totals
@@ -35,7 +35,7 @@ const Cart = ({ cartItems, fetchCart, loading }) => {
         throw new Error("Failed to delete item");
       }
       toast.success(`${data.message}`, { autoClose: 1000 });
-      fetchCart();
+      onFetchCart();
     } catch (error) {
       console.error("Request failed", error);
     }
@@ -53,7 +53,7 @@ const Cart = ({ cartItems, fetchCart, loading }) => {
   }
 
   return (
-    <div className="p-6 flex flex-col gap-2 pb-20">
+    <div className="p-2 flex flex-col gap-2 pb-20">
       <ToastContainer position="top-right" />
       <form className="bg-blue-500 p-2 text-white">
         <label htmlFor="file" className="font-bold">
@@ -77,7 +77,13 @@ const Cart = ({ cartItems, fetchCart, loading }) => {
         </div>
       ) : (
         <>
-          <ul className="flex flex-col gap-1">
+          <Link href={"/"} className="underline text-right">
+            Continue shopping ↗
+          </Link>
+          <p className="hidden md:block text-2xl font-bold">
+            Your cart is here!
+          </p>
+          <ul className="flex flex-col md:grid md:grid-cols-4 gap-1 md:w-fit">
             {cartItems?.map((item) => (
               <CartItem
                 key={item._id}

@@ -53,7 +53,7 @@
 
 // export default CarFetch;
 
-import Cart from "@/components/Cart";
+import CartWrapper from "@/components/CartWrapper";
 import { cookies } from "next/headers";
 
 const fetchCart = async () => {
@@ -98,7 +98,7 @@ const CarFetch = async () => {
       {!cartItems ? (
         <p className="text-red-500">Failed to load cart.</p>
       ) : (
-        <Cart cartItems={cartItems} />
+        <CartWrapper initialCartItems={cartItems} />
       )}
     </div>
   );

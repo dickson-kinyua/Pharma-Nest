@@ -1,8 +1,7 @@
 const OrderSummary = ({ subTotal, total, shippingFee }) => {
   return (
-    <div>
-      <div>
-        <p>Order Info</p>
+    <div className="fixed md:relative right-0 left-0 p-2 bottom-0 bg-white">
+      <div className="w-fit">
         <div>
           <div className="flex flex-row justify-between">
             <p>Subtotal</p>
@@ -14,10 +13,10 @@ const OrderSummary = ({ subTotal, total, shippingFee }) => {
           </div>
           <div className="flex flex-row justify-between">
             <p>Total</p>
-            <p>Ksh {subTotal}</p>
+            <p>Ksh {total}</p>
           </div>
         </div>
-        <button className="bg-blue-600 text-white p-2 w-full rounded-md mt-5">
+        <button className="bg-blue-600 text-white p-2 w-full md:w-fit rounded-md mt-5 ">
           CHECKOUT (KSh. {total})
         </button>
       </div>

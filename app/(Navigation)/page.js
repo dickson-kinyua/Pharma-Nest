@@ -13,7 +13,9 @@ export default async function Home({ searchParams }) {
 
   return (
     <div className="px-3 flex flex-col gap-1 bg-[#fffdfd]">
-      <Search />
+      <div className="w-full sm:hidden sticky top-8">
+        <Search />
+      </div>
       <FetchAllProducts />
     </div>
   );

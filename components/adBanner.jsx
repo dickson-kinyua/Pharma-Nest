@@ -30,16 +30,18 @@ const AdBanner = () => {
   }, []);
 
   return (
-    <div className="mx-0  w-full bg-blue-500 text-white py-[1px] px-1 flex justify-between">
+    <div className="mx-0  w-full bg-blue-500 text-white py-[1px] md:py-4 px-1 flex justify-between">
       <p className="text-sm leading-4 font-semibold  flex flex-col items-center">
-        <span className="tracking-tight uppercase text-xl font-extrabold">
+        <span className="tracking-tight uppercase text-xl md:text-3xl font-extrabold">
           One-Stop
         </span>{" "}
-        <span className="text-sm tracking-wider">Health Shop!</span>
+        <span className="text-sm md:text-xl tracking-wider">Health Shop!</span>
       </p>
-      <p className="flex flex-col items-center">
-        <span className="animate-pulse">Call or WhatsApp to order</span>
-        <span className="font-bold text-xl flex gap-1 items-center">
+      <p className="flex flex-col md:gap-2 items-center">
+        <span className="animate-pulse  md:text-3xl">
+          Call or WhatsApp to order
+        </span>
+        <span className="font-bold text-xl flex gap-1 md:gap-2 items-center md:text-3xl">
           <FaPhone className="rotate-[90deg]" /> 0745133665
         </span>
       </p>

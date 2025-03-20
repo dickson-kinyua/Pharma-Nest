@@ -17,17 +17,17 @@ const ProductCard = ({ product, reviews = [] }) => {
       : 0;
 
   return (
-    <Link href={`/listing/${product._id}`} className="bg-blue-50 p-1">
-      <div className="w-full flex flex-col ">
-        <div className="w-full h-24 flex items-center">
-          <Image
-            src={product.imageUrl}
-            alt="Product Image"
-            width={200}
-            height={400}
-            className="w-full h-full mx-auto"
-          />
-        </div>
+    <Link href={`/listing/${product._id}`} className="p-1">
+      <div className="w-full flex flex-col  p-2 sm:text-[14px] hover:scale-105 z-0">
+        {/* <div className="w-full h-24 sm:h-40 flex items-center"> */}
+        <Image
+          src={product.imageUrl}
+          alt="Product Image"
+          width={500}
+          height={400}
+          className="w-full sm:w-3/4 md:w-3/4 h-24 sm:h-26 md:h-40 mx-auto"
+        />
+        {/* </div> */}
 
         <p className="mt-2 w-full truncate">{product.title}</p>
         <p className="text-blue-500 font-semibold">KSh {product.price}</p>

@@ -16,7 +16,15 @@ const WithNavbarLayout = ({ children }) => {
     try {
       // Fetch cart data
       const response = await fetch("/api/cart");
-      if (!response.ok) throw new Error("Failed to fetch cart data");
+
+      if (!response.ok) {
+        const errorMessage = await response.json();
+        console.log(errorMessage);
+        startTransition(() => {
+          router.push("/cart");
+        });
+        return;
+      }
 
       const cartData = await response.json();
       console.log("Cart Data:", cartData); // Debugging
@@ -52,7 +60,7 @@ const WithNavbarLayout = ({ children }) => {
 
       {/* Overlay while fetching */}
       {showOverlay && (
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-50">
+        <div className="fixed top-0 left-0 h-[100vh] w-100% inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-center z-[999]">
           {/* Animated Spinner */}
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent z-50"></div>
 

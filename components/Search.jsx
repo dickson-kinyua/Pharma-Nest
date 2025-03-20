@@ -65,9 +65,9 @@ const Search = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-2  sticky top-8">
+    <div className="flex flex-col gap-2 py-2 bg-white sticky top-8">
       <form
-        className="w-full sm:w-1/2 mx-auto border my-1 bg-white border-black  p-2 relative rounded-xl flex gap-2 items-center"
+        className="w-full sm:w-1/2 mx-auto border my-1 bg-white border-black  p-2 relative  flex gap-2 items-center"
         onSubmit={(e) => e.preventDefault()}
       >
         <FaSearch size={20} />

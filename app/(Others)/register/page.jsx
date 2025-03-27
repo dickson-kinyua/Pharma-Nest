@@ -41,71 +41,76 @@ const RegisterPage = () => {
   return (
     <div className="w-full flex flex-col">
       <ToastContainer position="top-right" />
-      <div className="h-[150px] bg-blue-600 flex flex-col gap-3 p-2 justify-center">
+      <div className="bg-blue-600 flex flex-col gap-3 p-2 justify-center">
         <Link href="/" className="text-white underline">
           ↖ back
         </Link>
-        <p className="tracking-tighter text-3xl text-white font-bold">
+        <p className="tracking-tighter text-2xl text-white font-bold">
           Welcome to <br /> PharmaNest
         </p>
-        <p className="text-gray-200 text-sm">Welcome to PharmaNest</p>
       </div>
-      <p className="font-semibold text-2xl my-5 mx-3">Create an account</p>
-      <p className="mb-4 mx-3">
-        Already have an account?{" "}
-        <Link href={"/login"} className="underline">
-          Login
-        </Link>
-      </p>
-      <form className="flex flex-col gap-2 mx-3" onSubmit={handleRegister}>
-        <input
-          type="text"
-          required
-          placeholder="full name"
-          className="bg-gray-100 p-2"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-        />
+      <div className="flex flex-col sm:flex-row sm:justify-between">
+        <div className="sm:w-full">
+          <p className="my-4 mx-3">
+            Already have an account?{" "}
+            <Link href={"/login"} className="underline">
+              Login
+            </Link>
+          </p>
+          <form className="flex flex-col gap-2 mx-3" onSubmit={handleRegister}>
+            <input
+              type="text"
+              required
+              placeholder="full name"
+              className="bg-gray-100 p-2"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+            />
 
-        <input
-          type="email"
-          required
-          placeholder="Email"
-          className="bg-gray-100 p-2"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          required
-          placeholder="Enter your password"
-          className="bg-gray-100 p-2"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <p>
+            <input
+              type="email"
+              required
+              placeholder="Email"
+              className="bg-gray-100 p-2"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              required
+              placeholder="Enter your password"
+              className="bg-gray-100 p-2"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {/* <p>
           <input type="checkbox" defaultChecked className="mr-2" />I agree to{" "}
           <Link href={"/terms"}>Terms & Conditions</Link>
-        </p>
-        <button
-          type="submit"
-          className="bg-blue-600 p-2 rounded-2xl text-white mt-3"
-        >
-          Create account
-        </button>
-      </form>
-      <div className="flex flex-row gap-2 items-center mt-10">
-        <div className="border flex-grow border-solid border-gray-400"></div>
-        <p className="text-center font-semibold">Or register with</p>
-        <div className="border flex-grow border-solid border-gray-400"></div>
+        </p> */}
+            <button
+              type="submit"
+              className="bg-blue-600 p-2 rounded-2xl text-white mt-3 sm:w-fit"
+            >
+              Create account
+            </button>
+          </form>
+        </div>
+
+        <div className="sm:w-full">
+          <div className="flex flex-row sm:justify-center gap-2 items-center mt-10 mx-3">
+            <div className="border flex-grow border-solid border-gray-400 sm:hidden"></div>
+            <p className="text-center font-semibold">Or continue with</p>
+            <div className="border flex-grow border-solid border-gray-400 sm:hidden"></div>
+          </div>
+          <button
+            className="border border-gray-400 rounded-2xl mx-auto w-fit py-2 px-5 text-gray-700 font-semibold mt-5 flex items-center gap-1"
+            onClick={() => signIn("google")}
+          >
+            <FaGoogle />
+            Sign in with Google
+          </button>
+        </div>
       </div>
-      <button
-        className="border border-gray-400 rounded-2xl mx-auto w-fit py-2 px-5 text-gray-700 font-semibold mt-5 flex items-center gap-1"
-        onClick={() => signIn("google")}
-      >
-        <FaGoogle />
-        Sign in with Google
-      </button>
     </div>
   );
 };

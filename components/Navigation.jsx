@@ -33,7 +33,7 @@ const Navigation = ({ onCartClick }) => {
           PharmaNest
         </p>
       </div>
-      <div className="hidden sm:block flex-grow z-40">
+      <div className="hidden sm:block flex-grow z-50">
         <Search />
       </div>
       <div className="flex gap-4 sm:gap-4 md:gap-5">

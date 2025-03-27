@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserCart } from "@/Context/cartContext";
@@ -9,14 +9,13 @@ import { useRouter } from "next/navigation";
 import ProductInfo from "./ProductInfo";
 import Reviews from "./Reviews";
 import ProductDescription from "./ProductDescription";
-// import Recommend from "./Recommend";
-import { FaHome, FaShoppingCart } from "react-icons/fa";
+
+import { FaShoppingCart } from "react-icons/fa";
 
 const TABS = [
   { id: 1, label: "Product Info", component: ProductInfo },
   { id: 2, label: "Reviews", component: Reviews },
   { id: 3, label: "Description", component: ProductDescription },
-  // { id: 4, label: "Recommend", component: Recommend },
 ];
 
 const ProductDetails = ({ product }) => {
@@ -31,9 +30,6 @@ const ProductDetails = ({ product }) => {
       return;
     }
     if (!product || !product._id) return;
-
-    // console.log(productID);
-
     const response = await fetch(
       ` ${process.env.NEXT_PUBLIC_API_URL}/api/cart`,
       {
@@ -48,11 +44,9 @@ const ProductDetails = ({ product }) => {
     console.log(data);
 
     if (!response.ok) {
-      // console.log(data);
       toast.warn(data.error, { autoClose: 1000 });
       return;
     }
-
     toast.success("Successully added to cart", { autoClose: 1000 });
     addToCart(data);
   };
@@ -61,8 +55,8 @@ const ProductDetails = ({ product }) => {
 
   return (
     <div className="flex flex-col gap-3 p-2 pb-12">
-      <div className="flex flex-col gap-3 bg-[white] p-2 fixed right-0 left-0">
-        <div className="flex justify-between md:justify-center gap-7">
+      <div className="flex flex-col gap-3 bg-[white] p-2">
+        <div className="flex justify-between sm:justify-center gap-7">
           {TABS.map(({ id, label }) => (
             <button
               key={id}
@@ -79,13 +73,11 @@ const ProductDetails = ({ product }) => {
         </div>
       </div>
       <ToastContainer position="top-right" />
-      <div className="mt-16 ">
-        {ActiveComponent && <ActiveComponent product={product} />}
-      </div>
+      <div>{ActiveComponent && <ActiveComponent product={product} />}</div>
 
       <div className="fixed md:relative z-20 left-0 p-2 bg-slate-50 bottom-0 w-full">
         <button
-          className="rounded p-3 bg-blue-500  text-white w-full md:w-fit text-sm flex items-center gap-3 justify-center"
+          className="rounded p-3 sm:p-2 bg-blue-500  text-white w-full sm:w-fit text-sm flex items-center gap-3 justify-center"
           onClick={() => handleAddToCart(product._id)}
         >
           <FaShoppingCart />

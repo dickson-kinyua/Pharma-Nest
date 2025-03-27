@@ -67,7 +67,7 @@ const Search = () => {
   return (
     <div className="flex flex-col gap-2 py-2 bg-white sticky top-8">
       <form
-        className="w-full mx-auto border my-1 bg-white border-gray-600 p-2 rounded relative  flex gap-2 items-center"
+        className="w-full mx-auto border bg-white border-gray-600 p-2 rounded-3xl relative flex gap-2  items-center"
         onSubmit={(e) => e.preventDefault()}
       >
         <FaSearch size={20} />
@@ -80,12 +80,14 @@ const Search = () => {
       </form>
 
       {loading ? (
-        <div className="flex items-center justify-center">Loading...</div>
+        <div className="flex items-center justify-center absolute top-[46px] bg-slate-50 w-full border shadow-gray-400">
+          Loading...
+        </div>
       ) : searchTerm && results ? (
         results.length > 0 ? (
           <SearchResults results={results} />
         ) : (
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center absolute top-[46px] bg-slate-50 w-full border shadow-gray-400">
             No results found
           </div>
         )

@@ -67,48 +67,55 @@ const LoginContent = () => {
   return (
     <div>
       <HeaderSection />
-      <form className="flex flex-col gap-2 p-3" onSubmit={handleLogin}>
-        <InputField
-          label="Email"
-          type="email"
-          name="email"
-          value={credentials.email}
-          onChange={handleInputChange}
-        />
-        <InputField
-          label="Password"
-          type="password"
-          name="password"
-          value={credentials.password}
-          onChange={handleInputChange}
-        />
-        <Link className="text-blue-600 self-end text-sm underline" href="#">
-          forgot password
-        </Link>
-        <button
-          type="submit"
-          disabled={signingIn}
-          className="bg-blue-600 p-2 text-white rounded"
+      <div className="flex flex-col sm:flex-row sm:justify-between">
+        <form
+          className="flex flex-col gap-2 p-3 sm:w-full"
+          onSubmit={handleLogin}
         >
-          Login
-        </button>
-        <ToastContainer position="top-right" />
-      </form>
-      <SocialLogin />
-      <RegisterSection />
+          <InputField
+            label="Email"
+            type="email"
+            name="email"
+            value={credentials.email}
+            onChange={handleInputChange}
+          />
+          <InputField
+            label="Password"
+            type="password"
+            name="password"
+            value={credentials.password}
+            onChange={handleInputChange}
+          />
+          <Link className="text-blue-600 self-end text-sm underline" href="#">
+            forgot password
+          </Link>
+          <button
+            type="submit"
+            disabled={signingIn}
+            className="bg-blue-600 p-2 sm:w-1/4 text-white rounded"
+          >
+            Login
+          </button>
+          <ToastContainer position="top-right" />
+        </form>
+        <div className="sm:w-full">
+          <SocialLogin />
+          <RegisterSection />
+        </div>
+      </div>
     </div>
   );
 };
 
 const HeaderSection = () => (
-  <div className="h-[150px] bg-blue-600 p-2 flex flex-col gap-3 justify-center">
+  <div className=" bg-blue-600 p-2 flex flex-col gap-3 justify-center">
     <Link href="/" className="text-white underline">
       ↖ back
     </Link>
-    <p className="tracking-tighter text-3xl text-white font-bold">
+    <p className="tracking-tighter text-2xl text-white font-bold">
       Sign in to your <br /> Account
     </p>
-    <p className="text-gray-200 text-sm">Sign in to your Account</p>
+    {/* <p className="text-gray-200 text-sm">Sign in to your Account</p> */}
   </div>
 );
 
@@ -120,7 +127,7 @@ const InputField = ({ label, type, name, value, onChange }) => (
       id={name}
       name={name}
       required
-      className="border p-2"
+      className="border p-2 "
       value={value}
       onChange={onChange}
     />
@@ -138,10 +145,10 @@ const RegisterSection = () => (
 
 const SocialLogin = () => (
   <div className="p-3 flex flex-col gap-4 items-center">
-    <div className="flex items-center gap-1 my-4">
-      <div className="flex-grow border-t border-gray-300"></div>
+    <div className="flex flex-row sm:justify-center gap-2 items-center mt-10 mx-3">
+      <div className="border flex-grow border-solid border-gray-400 sm:hidden"></div>
       <p className="text-center font-semibold">Or continue with</p>
-      <div className="flex-grow border-t border-gray-300"></div>
+      <div className="border flex-grow border-solid border-gray-400 sm:hidden"></div>
     </div>
     <button
       className="border-gray-300 border rounded-2xl w-fit py-2 px-7 text-gray-900 font-semibold flex items-center gap-1"

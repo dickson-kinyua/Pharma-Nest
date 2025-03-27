@@ -1,7 +1,7 @@
 const OrderSummary = ({ subTotal, total, shippingFee }) => {
   return (
     <div className="fixed md:relative right-0 left-0 p-2 bottom-0 bg-white">
-      <div className="w-fit">
+      <div className="sm:w-fit">
         <div>
           <div className="flex flex-row justify-between">
             <p>Subtotal</p>

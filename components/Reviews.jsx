@@ -14,7 +14,7 @@ const Reviews = ({ product }) => {
 
   async function handleReviewSubmit() {
     const data = { productID: product._id, rating, review };
-    console.log(data);
+    // console.log(data);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/reviews`,
@@ -66,7 +66,7 @@ const Reviews = ({ product }) => {
 
       const json = await response.json();
       setLoadingReviews(false);
-      console.log(json);
+      // console.log(json);
       setReviews(json);
     } catch (error) {
       console.log(error);
@@ -87,10 +87,7 @@ const Reviews = ({ product }) => {
 
   return (
     <>
-      <button
-        onClick={toggleOpenReview}
-        className="animate-pulse border-b-2 my-4"
-      >
+      <button onClick={toggleOpenReview} className="border-b-2 my-1">
         Leave us a review ↗
       </button>
 
@@ -150,7 +147,7 @@ const Reviews = ({ product }) => {
 
       <p>Customer reviews ({reviews?.length})</p>
       {reviews.length > 0 ? (
-        <ul className="mt-10">
+        <ul className="mt-2">
           {reviews?.map((rev) => (
             <li key={rev._id} className="flex gap-5">
               <div className="bg-gray-200 h-10 w-10 flex justify-center items-center rounded-full">
@@ -167,7 +164,6 @@ const Reviews = ({ product }) => {
                   {new Date(rev.createdAt).toDateString()} at{" "}
                   {new Date(rev.createdAt).toLocaleTimeString()}
                 </p>
-                <p>{rev?.review}</p>
                 <div className="flex space-x-2 mt-2">
                   {[1, 2, 3, 4, 5].map((star, index) => (
                     <FaStar
@@ -180,6 +176,7 @@ const Reviews = ({ product }) => {
                     />
                   ))}
                 </div>
+                <p className="mt-3">{rev?.review}</p>
               </div>
             </li>
           ))}
